@@ -5,11 +5,11 @@ exports.insertValidator = [
     .isInt()
     .withMessage("Child ID should be an integer"),
 
-  body("fullName")
+  body("fullname")
     .isString()
-    .withMessage("Child fullName should be a string")
+    .withMessage("Child fullname should be a string")
     .isLength({ min: 2 })
-    .withMessage("Child fullName length should be at least 2 characters"),
+    .withMessage("Child fullname length should be at least 2 characters"),
 
   body("age")
     .isInt({ min: 0 })
@@ -34,16 +34,16 @@ exports.insertValidator = [
 
 exports.updateValidator = [
   body("_id")
-    .optional()
+    // .optional()
     .isInt()
-    .withMessage("Child ID should be an integer"),
+    .withMessage("Child ID is required and should be an integer"),
 
-  body("fullName")
+  body("fullname")
     .optional()
     .isString()
-    .withMessage("Child fullName should be a string")
+    .withMessage("Child fullname should be a string")
     .isLength({ min: 2 })
-    .withMessage("Child fullName length should be at least 2 characters"),
+    .withMessage("Child fullname length should be at least 2 characters"),
 
   body("age")
     .optional()

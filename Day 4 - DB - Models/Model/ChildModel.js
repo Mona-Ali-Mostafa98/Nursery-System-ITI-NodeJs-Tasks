@@ -11,7 +11,7 @@ const addressSchema = new mongoose.Schema(
 
 const schema = new mongoose.Schema({
     _id: Number,
-    fullName: {type: String, unique: true, minlength: 2, required: true},
+    fullname: {type: String, required: true, minlength: 2},
     age: Number,
     level: {type: String, enum: ["PreKG", "KG1", "KG2"]},
     address: addressSchema,
