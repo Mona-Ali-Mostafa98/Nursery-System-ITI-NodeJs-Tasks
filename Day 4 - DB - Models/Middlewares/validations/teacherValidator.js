@@ -29,9 +29,9 @@ exports.insertValidator = [
 
 exports.updateValidator = [
   body("_id")
-    .optional()
+    // .optional()
     .isMongoId()
-    .withMessage("teacher id should be object ID"),
+    .withMessage("teacher id required and should be object ID"),
   body("fullname")
     .optional()
     .isString()
@@ -41,14 +41,19 @@ exports.updateValidator = [
     // checkExact([], { locations: ['body'] }),
   body('password')
     .optional()
-    .isStrongPassword()
-    .isLength({ min: 8 }),
+    // .isStrongPassword()
+    .isLength({ min: 8 })
+    .withMessage("teacher password min length 8"),
+
   body('email')
     .optional()
-    .isEmail(),
-  body('image')
+    .isEmail()
+    .withMessage("teacher email is invalid"),
+
+    body('image')
     .optional()
-    .isString(),
+    .isString()
+    .withMessage("teacher image should be string"),
 ];
 
 exports.deleteValidator = [param('id').isMongoId().withMessage('Teacher id Must be an objectID')];

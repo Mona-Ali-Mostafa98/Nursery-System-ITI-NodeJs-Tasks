@@ -1,26 +1,70 @@
+const TeacherSchema = require("./../Model/TeacherModel");
+const ClassSchema = require("./../Model/ClassModel");
+
 exports.getAllTeachers = (req, res, next) => {
-  console.log(req.query);
-  res.status(200).json({ data: [{"name": "teacher 1"},{"name": "teacher 2"}, {"name": "teacher 3"}] });
+    TeacherSchema.find({})
+        .then((teachers) => {
+            res.status(200).json({teachers});
+        })
+        .catch((error) => next(error));
 };
 
 exports.getTeacherById = (req, res, next) => {
-  res.status(200).json({ data: req.params });
+    TeacherSchema.findOne({_id : req.params.id})
+        .then((teacher) => {
+            if (!teacher) {
+                throw new Error("Teacher not exists.......");
+            }
+            res.status(200).json({ teacher });
+        })
+        .catch((error) => {next(error)});
 };
 
 exports.insertTeacher = (req, res, next) => {
-  console.log(req.body);
-  res.status(200).json({ data: "Teacher Added Successfully" });
+    let teacherObject = new TeacherSchema(req.body);
+    teacherObject
+        .save()
+        .then((teacher) => {
+            res.status(200).json({ teacher, message: "Teacher Added Successfully......."});
+        })
+        .catch((error) => next(error));
 };
 
 exports.updateTeacher = (req, res, next) => {
-  res.status(200).json({ data: "Teacher Updated Successfully" });
+    const filter = { _id: req.body._id };
+    const update = req.body;
+
+    // findOneAndUpdate - findByIdAndUpdate - updateOne()
+    TeacherSchema.findOneAndUpdate(filter, update, {new: true}) // to return new object
+        .then(teacher => {
+            if (!teacher) {
+                throw new Error("Teacher not exists.......");
+                // return res.status(404).json({ message: "Teacher not exists......." });
+            }
+            res.status(200).json({ teacher, message: "Teacher updated successfully......." });
+        })
+        .catch(error => next(error));
 };
 
 exports.deleteTeacherById = (req, res, next) => {
-  res.status(200).json({ data: "Teacher Deleted Successfully" });
+    TeacherSchema.deleteOne({ "_id" : req.params.id })// return teacher { acknowledged: true, deletedCount: 0 or 1 }
+        .then((object) => {
+            if (!object.deletedCount) {
+                throw new Error("Teacher not exists.......");
+            }
+            res.status(200).json({message : "Teacher Deleted Successfully....."});
+        })
+        .catch((error) => {next(error)});
 };
 
 exports.getAllClassSupervisors = (req, res, next) => {
-  res.status(200).json({ data: "Teacher supervisor 1" });
+    ClassSchema.find({}, {_id:0, name:1})
+        .populate({ path: 'supervisor', select: 'fullname' })
+
+        .then(classes => {
+            const supervisors = classes.map(classSupervisor => classSupervisor.supervisor);
+            res.status(200).json({ supervisors: classes, message: "Class supervisors retrieved successfully" });
+        })
+        .catch(error => next(error));
 };
 
