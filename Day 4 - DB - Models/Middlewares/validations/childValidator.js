@@ -71,6 +71,6 @@ exports.updateValidator = [
     .withMessage("Building should be a string")
 ];
 
-exports.deleteValidator = [param('_id').isInt().withMessage('_id Must be an int')];
+exports.deleteValidator = [param('id').isInt().withMessage('Child id Must be an int')];
 
-exports.getByIdValidator = [param('_id').isInt().withMessage('_id Must be an int')];
+exports.getByIdValidator = [param('id').isInt().withMessage('Child id Must be an int')];

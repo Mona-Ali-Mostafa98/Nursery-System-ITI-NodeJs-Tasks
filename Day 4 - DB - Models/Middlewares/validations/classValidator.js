@@ -54,13 +54,13 @@ exports.updateValidator = [
 ];
 
 exports.deleteValidator = [
-  param("_id")
+  param("id")
     .isInt()
     .withMessage("Class ID must be an integer")
 ];
 
 exports.getByIdValidator = [
-  param("_id")
+  param("id")
     .isInt()
     .withMessage("Class ID must be an integer")
 ];

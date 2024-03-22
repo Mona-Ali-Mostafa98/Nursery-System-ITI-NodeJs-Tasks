@@ -12,12 +12,12 @@ router.route("/classes")
   .post(insertValidator, validationResult, controller.insertClass)
   .patch(updateValidator, validationResult, controller.updateClass);
 
-router.get("/classes/child/:_id",getByIdValidator, validationResult, controller.getAllClassChildren);
+router.get("/classes/child/:id",getByIdValidator, validationResult, controller.getAllClassChildren);
 
-router.route("/classes/teacher/:_id")
+router.route("/classes/teacher/:id")
   .get(getByIdValidator, validationResult, controller.getAllClassSupervisorInfo);
 
-router.route("/classes/:_id")
+router.route("/classes/:id")
   .get(getByIdValidator, validationResult, controller.getClassById)
   .delete(deleteValidator, validationResult, controller.deleteClassById);
 

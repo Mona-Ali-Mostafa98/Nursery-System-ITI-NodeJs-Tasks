@@ -10,7 +10,7 @@ router.route("/childs")
   .post(insertValidator, validationResult, controller.insertChild)
   .patch(updateValidator, validationResult, controller.updateChild);
 
-router.route("/childs/:_id")
+router.route("/childs/:id")
   .get(getByIdValidator, validationResult, controller.getChildById)
   .delete(deleteValidator, validationResult, controller.deleteChildById);
 

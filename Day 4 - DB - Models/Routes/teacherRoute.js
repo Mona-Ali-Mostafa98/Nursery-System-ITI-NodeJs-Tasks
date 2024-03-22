@@ -12,7 +12,7 @@ router.route("/teachers")
 
 router.get("/teachers/supervisors", controller.getAllClassSupervisors);
 
-router.route("/teachers/:_id")
+router.route("/teachers/:id")
   .get(getByIdValidator, validationResult, controller.getTeacherById)
   .delete(deleteValidator, validationResult, controller.deleteTeacherById);
 

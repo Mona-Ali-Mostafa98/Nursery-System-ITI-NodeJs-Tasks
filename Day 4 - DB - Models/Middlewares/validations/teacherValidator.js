@@ -51,6 +51,6 @@ exports.updateValidator = [
     .isString(),
 ];
 
-exports.deleteValidator = [param('_id').isMongoId().withMessage('_id Must be an objectID')];
+exports.deleteValidator = [param('id').isMongoId().withMessage('Teacher id Must be an objectID')];
 
-exports.getByIdValidator = [param('_id').isMongoId().withMessage('_id Must be an objectID')];
+exports.getByIdValidator = [param('id').isMongoId().withMessage('Teacher id Must be an objectID')];
