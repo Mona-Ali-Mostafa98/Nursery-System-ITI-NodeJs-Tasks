@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { generateNextIdValue } = require("./../Model/CounterModel");
 
 const addressSchema = new mongoose.Schema(
     {
@@ -25,6 +26,18 @@ const schema = new mongoose.Schema({
         },
     },
     password: {type: String, minlength: 8, required: true},
+});
+
+// Auto Increment Id
+schema.pre('save', async function (next) {
+    if (!this.isNew) return next();
+
+    try {
+        this._id = await generateNextIdValue('Child'); // Pass model name
+        next();
+    } catch (error) {
+        next(error);
+    }
 });
 
 module.exports = mongoose.model("Child", schema);

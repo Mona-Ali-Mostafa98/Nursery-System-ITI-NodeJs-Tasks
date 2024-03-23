@@ -4,11 +4,12 @@ const express = require("express");
 const controller = require("./../Controller/classController");
 const { insertValidator, updateValidator, deleteValidator, getByIdValidator} = require("../Middlewares/validations/classValidator");
 const validationResult = require("../Middlewares/validations/validationResult");
+const { isTeacher } = require("../Middlewares/authMiddleware");
 
 const router = express.Router();
 
 router.route("/classes")
-  .get(controller.getAllClasses)
+  .get(isTeacher,controller.getAllClasses)
   .post(insertValidator, validationResult, controller.insertClass)
   .patch(updateValidator, validationResult, controller.updateClass);
 

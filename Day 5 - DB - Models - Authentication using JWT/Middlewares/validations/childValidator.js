@@ -2,6 +2,7 @@ const { body, param, query } = require("express-validator");
 
 exports.insertValidator = [
   body("_id")
+    .optional()
     .isInt()
     .withMessage("Child ID should be an integer"),
 

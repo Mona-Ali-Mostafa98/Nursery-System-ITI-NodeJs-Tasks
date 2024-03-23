@@ -13,12 +13,12 @@ module.exports = (req, res, next) => {
     }
 };
 
-module.exports.isAdmin = (req, res, next) => {
+module.exports.isTeacher = (req, res, next) => {
     if (req.token.role == "teacher") next();
     else next(new Error("You Are Not Authorized......"));
 };
 
-module.exports.isStudent = (req, res, next) => {
+module.exports.isChild = (req, res, next) => {
     if (req.token.role == "child") next();
     else next(new Error("You Are Not Authorized......"));
 };

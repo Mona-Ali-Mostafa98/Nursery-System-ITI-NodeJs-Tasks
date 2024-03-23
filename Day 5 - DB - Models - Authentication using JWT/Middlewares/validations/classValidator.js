@@ -2,9 +2,10 @@ const { body, param } = require("express-validator");
 
 exports.insertValidator = [
   body("_id")
+    .optional()
     .isInt()
     .withMessage("Class ID should be an integer"),
-  
+
   body("name")
     .isString()
     .withMessage("Class name should be a string")
