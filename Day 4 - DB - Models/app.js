@@ -42,5 +42,5 @@ server.use((request, response) => {
 
 // Error MW
 server.use((error, request, response, next) => {
-    response.status(500).json({data: `Error MW ${error}`});
+    response.status(500).json({data: `Error Middleware: ${error}`});
 });

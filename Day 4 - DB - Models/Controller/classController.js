@@ -1,31 +1,94 @@
+const ClassSchema = require("./../Model/ClassModel");
+
 exports.getAllClasses = (req, res, next) => {
-  console.log(req.query);
-  res.status(200).json({ data: [{"name": "class 1"},{"name": "class 2"}, {"name": "class 3"}] });
+  ClassSchema.find({})
+      .then((classes) => {
+        res.status(200).json({classes});
+      })
+      .catch((error) => next(error));
 };
 
 exports.getClassById = (req, res, next) => {
-  res.status(200).json({ data: req.params });
+  ClassSchema.findOne({_id : req.params.id})
+      .then((classObject) => {
+        if (!classObject) {
+          throw new Error("Class not exists.......");
+        }
+        res.status(200).json({ class : classObject });
+      })
+      .catch((error) => {next(error)});
 };
 
 exports.insertClass = (req, res, next) => {
-  console.log(req.body);
-  res.status(200).json({ data: "Class Added Successfully" });
+  let classObject = new ClassSchema(req.body);
+  classObject
+      .save()
+      .then((classObj) => {
+        res.status(200).json({ class : classObj, message: "Class Added Successfully......."});
+      })
+      .catch((error) => next(error));
 };
 
 exports.updateClass = (req, res, next) => {
-  res.status(200).json({ data: "Class Updated Successfully" });
+  const id = req.body._id; // Assuming the ID field is 'id', adjust it if it's '_id'
+  const update = req.body;
+
+  /*if (!id) {
+    return res.status(400).json({ message: "Class ID is required and should be an integer." });
+  }*/
+
+  ClassSchema.findByIdAndUpdate(id, update, { new: true })
+      .then(classObject => {
+        if (!classObject) {
+          return res.status(404).json({ message: "Class not exists......." });
+        }
+        res.status(200).json({ class: classObject, message: "Class updated successfully......." });
+      })
+      .catch(error => next(error));
 };
 
 exports.deleteClassById = (req, res, next) => {
-  res.status(200).json({ data: "Class Deleted Successfully" });
+  ClassSchema.deleteOne({_id: req.params.id})
+      .then((object) => {
+        if(!object.deletedCount){
+          throw new Error("Class not exists.......");
+        }
+        res.status(200).json({ message: "Class Deleted Successfully" });
+      })
+      .catch((error) => {next(error)})
 };
 
 exports.getAllClassChildren = (req, res, next) => {
-  // Implement logic to get all children in a class
-  res.status(200).json({ data: "Retrieving all class children" });
+    const classId = req.params.id;
+
+    ClassSchema.findById(classId)
+        .populate('children')
+        .then((classObject) => {
+            if (!classObject) {
+                throw new Error("Class not exists.......");
+            }
+
+            res.status(200).json({ childs : classObject.children});
+        })
+        .catch((error) => {
+            next(error)
+        })
+
 };
 
 exports.getAllClassSupervisorInfo = (req, res, next) => {
-  // Implement logic to get all supervisor information in a class
-  res.status(200).json({ data: "Retrieving all class supervisor information" });
+    const classId = req.params.id;
+
+    ClassSchema.findById(classId)
+        .populate('supervisor')
+        .then((classObject) => {
+            if (!classObject) {
+                throw new Error("Class not exists.......");
+            }
+
+            res.status(200).json({ supervisors : classObject.supervisor});
+        })
+        .catch((error) => {
+            next(error)
+        })
 };

@@ -26,9 +26,9 @@ exports.insertValidator = [
 
 exports.updateValidator = [
   body("_id")
-    .optional()
+    // .optional()
     .isInt()
-    .withMessage("Class ID should be an integer"),
+    .withMessage("Class ID is required and should be an integer"),
   
   body("name")
     .optional()
