@@ -1,4 +1,6 @@
 const ClassSchema = require("./../Model/ClassModel");
+const ChildSchema = require("./../Model/ChildModel");
+const TeacherSchema = require("./../Model/TeacherModel");
 
 exports.getAllClasses = (req, res, next) => {
   ClassSchema.find({})
@@ -19,14 +21,29 @@ exports.getClassById = (req, res, next) => {
       .catch((error) => {next(error)});
 };
 
-exports.insertClass = (req, res, next) => {
-  let classObject = new ClassSchema(req.body);
-  classObject
-      .save()
-      .then((classObj) => {
-        res.status(200).json({ class : classObj, message: "Class Added Successfully......."});
-      })
-      .catch((error) => next(error));
+exports.insertClass = async (req, res, next) => {
+    try {
+        const supervisorExists = await TeacherSchema.exists({ _id: req.body.supervisor });
+        const childrenExist = await ChildSchema.find({ _id: { $in: req.body.children } }).countDocuments();
+
+        if (!supervisorExists && childrenExist !== req.body.children.length) {
+            return res.status(400).json({ message: "Supervisor not exists and One or more children not exists......" });
+        } else if (!supervisorExists) {
+            return res.status(400).json({ message: "Supervisor not exists......" });
+        } else if (childrenExist !== req.body.children.length) {
+            return res.status(400).json({ message: "One or more children not exists......" });
+        }
+
+        let classObject = new ClassSchema(req.body);
+        await classObject
+            .save()
+            .then((classObj) => {
+                res.status(200).json({ class : classObj, message: "Class Added Successfully......."});
+            })
+            .catch((error) => next(error));
+    } catch (error) {
+        next(error);
+    }
 };
 
 exports.updateClass = (req, res, next) => {
