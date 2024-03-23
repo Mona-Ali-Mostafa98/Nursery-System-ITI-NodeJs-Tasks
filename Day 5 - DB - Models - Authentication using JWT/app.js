@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const dotenv = require("dotenv").config();
 
 const teacherRoute = require("./Routes/teacherRoute");
 const childRoute = require("./Routes/childRoute");
@@ -11,7 +12,7 @@ const server = express();
 const port = process.env.PORT || 8080;
 
 mongoose
-    .connect("mongodb://127.0.0.1:27017/NurserySystem")
+    .connect(process.env.DB_URL || "mongodb://127.0.0.1:27017/NurserySystem")
     .then(() => {
         console.log("DB Connected Successfully....");
         server.listen(port, () => {
