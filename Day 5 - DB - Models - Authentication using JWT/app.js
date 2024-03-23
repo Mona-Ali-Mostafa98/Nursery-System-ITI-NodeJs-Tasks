@@ -5,6 +5,9 @@ const dotenv = require("dotenv").config();
 const teacherRoute = require("./Routes/teacherRoute");
 const childRoute = require("./Routes/childRoute");
 const classRoute = require("./Routes/classRoute");
+const loginRoute = require("./Routes/authRoute");
+const authMiddleware = require("./Middlewares/authMiddleware");
+
 // 1- default function create server
 const server = express();
 
@@ -23,7 +26,7 @@ mongoose
         console.log("DB Problem ..." + error);
     });
 
-/********************* Structure*************** */
+/****   ***************** Structure*************** */
 // first MW
 server.use((request, response, next) => {
     console.log(request.url, request.method);
@@ -33,6 +36,9 @@ server.use((request, response, next) => {
 /******************* EndPoints (Routes) */
 server.use(express.json());
 // server.use(express.urlencoded());
+server.use(loginRoute);
+server.use(authMiddleware);
+
 server.use(teacherRoute, childRoute, classRoute);
 
 /******************************************/

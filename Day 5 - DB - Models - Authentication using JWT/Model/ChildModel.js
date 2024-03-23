@@ -15,6 +15,16 @@ const schema = new mongoose.Schema({
     age: Number,
     level: {type: String, enum: ["PreKG", "KG1", "KG2"]},
     address: addressSchema,
+    email: {
+        type: String, lowercase: true, unique: true, required: true,
+        validate: {
+            validator: function (v) {
+                return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+            },
+            message: props => `${props.value} is not a valid email!`
+        },
+    },
+    password: {type: String, minlength: 8, required: true},
 });
 
 module.exports = mongoose.model("Child", schema);

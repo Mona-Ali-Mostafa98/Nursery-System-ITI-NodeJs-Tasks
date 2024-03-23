@@ -29,7 +29,17 @@ exports.insertValidator = [
 
   body("address.building")
     .isString()
-    .withMessage("Building should be a string")
+    .withMessage("Building should be a string"),
+
+  body('password')
+      // .isStrongPassword()
+      // .withMessage("password should be strong")
+      .isLength({ min: 8 })
+      .withMessage("child password min length 8"),
+
+  body('email')
+      .isEmail()
+      .withMessage("child email is invalid"),
 ];
 
 exports.updateValidator = [
@@ -68,7 +78,19 @@ exports.updateValidator = [
   body("address.building")
     .optional()
     .isString()
-    .withMessage("Building should be a string")
+    .withMessage("Building should be a string"),
+
+  body('password')
+      .optional()
+      // .isStrongPassword()
+      // .withMessage("password should be strong")
+      .isLength({ min: 8 })
+      .withMessage("child password min length 8"),
+
+  body('email')
+      .optional()
+      .isEmail()
+      .withMessage("child email is invalid")
 ];
 
 exports.deleteValidator = [param('id').isInt().withMessage('Child id Must be an int')];
