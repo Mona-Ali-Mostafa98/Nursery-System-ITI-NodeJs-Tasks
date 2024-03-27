@@ -11,6 +11,14 @@ const authMiddleware = require("./Middlewares/authMiddleware");
 // 1- default function create server
 const server = express();
 
+// To access api in web
+server.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Allow the specified HTTP methods
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allow the specified headers
+    next();
+});
+
 // 2- setting port number and Connect on db
 const port = process.env.PORT || 8080;
 
@@ -36,8 +44,8 @@ server.use((request, response, next) => {
 /******************* EndPoints (Routes) */
 server.use(express.json());
 // server.use(express.urlencoded());
-server.use(loginRoute);
-server.use(authMiddleware);
+// server.use(loginRoute);
+// server.use(authMiddleware);
 
 server.use(teacherRoute, childRoute, classRoute);
 
