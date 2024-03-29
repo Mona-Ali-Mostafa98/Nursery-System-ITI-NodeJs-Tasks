@@ -1,5 +1,6 @@
 const TeacherSchema = require("./../Model/TeacherModel");
 const ClassSchema = require("./../Model/ClassModel");
+const fs = require('fs');
 
 exports.getAllTeachers = (req, res, next) => {
     TeacherSchema.find({})
@@ -21,7 +22,21 @@ exports.getTeacherById = (req, res, next) => {
 };
 
 exports.insertTeacher = (req, res, next) => {
-    let teacherObject = new TeacherSchema(req.body);
+    const teacherData = {
+        _id: req.body._id,
+        fullname: req.body.fullname,
+        password: req.body.password,
+        email: req.body.email,
+        image: req.file ? req.file.path : null,
+    };
+
+    console.log("File path:", req.file ? req.file.path : "No file uploaded");
+
+    if (req.file && !fs.existsSync(req.file.path)) {
+        return res.status(400).json({ message: "Uploaded file not found or file path is incorrect" });
+    }
+
+    let teacherObject = new TeacherSchema(teacherData);
     teacherObject
         .save()
         .then((teacher) => {

@@ -13,7 +13,8 @@ const schema = new mongoose.Schema({
             message: props => `${props.value} is not a valid email!`
         },
     },
-    image: String
+    image: String,
+    role: { type: String, enum: ["admin", "teacher"], default: "teacher" }
 });
 
 module.exports = mongoose.model("Teacher", schema);

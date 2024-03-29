@@ -23,8 +23,12 @@ exports.insertValidator = [
     .withMessage("teacher email is invalid"),
 
   body('image')
-    .isString()
-    .withMessage("teacher image should be string"),
+    .custom((value, { req }) => {
+        if (!req.file) {
+          throw new Error("teacher image is required");
+        }
+        return true;
+    })
 ];
 
 exports.updateValidator = [
@@ -50,10 +54,14 @@ exports.updateValidator = [
     .isEmail()
     .withMessage("teacher email is invalid"),
 
-    body('image')
+  body('image')
     .optional()
-    .isString()
-    .withMessage("teacher image should be string"),
+    .custom((value, { req }) => {
+        if (!req.file) {
+            throw new Error("teacher image is required");
+        }
+        return true;
+    })
 ];
 
 exports.deleteValidator = [param('id').isMongoId().withMessage('Teacher id Must be an objectID')];
