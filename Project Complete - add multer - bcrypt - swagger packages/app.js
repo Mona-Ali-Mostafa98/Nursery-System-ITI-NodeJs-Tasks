@@ -43,7 +43,7 @@ server.use((request, response, next) => {
 
 /******************* EndPoints (Routes) */
 server.use(express.json());
-// server.use(express.urlencoded());
+server.use(express.urlencoded({ extended: true }));
 // server.use(loginRoute);
 // server.use(authMiddleware);
 
