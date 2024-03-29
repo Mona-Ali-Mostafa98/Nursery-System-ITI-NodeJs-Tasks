@@ -2,8 +2,9 @@ const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    fullname: {type: String, unique: true, required: true},
-    password: {type: String, minlength: 8, required: true},
+    username: { type: String, required: true, minlength: 2, maxlength: 50, match: /^[a-zA-Z0-9_]+$/, trim: true },    
+    fullname: { type: String, unique: true, required: true, trim: true},
+    password: { type: String, minlength: 8, required: true, trim: true },
     email: {
         type: String, lowercase: true, unique: true, required: true,
         validate: {
@@ -13,7 +14,7 @@ const schema = new mongoose.Schema({
             message: props => `${props.value} is not a valid email!`
         },
     },
-    image: String,
+    image: { type: String, required: true },
     role: { type: String, enum: ["admin", "teacher"], default: "teacher" }
 });
 

@@ -12,8 +12,9 @@ const addressSchema = new mongoose.Schema(
 
 const schema = new mongoose.Schema({
     _id: Number,
-    fullname: {type: String, required: true, minlength: 2},
-    age: Number,
+    username: { type: String, required: true, minlength: 2, maxlength: 50, match: /^[a-zA-Z0-9_]+$/, trim: true },    
+    fullname: {type: String, required: true, minlength: 2, trim: true},
+    age: { type: Number, required: true },
     level: {type: String, enum: ["PreKG", "KG1", "KG2"]},
     address: addressSchema,
     email: {
@@ -25,7 +26,8 @@ const schema = new mongoose.Schema({
             message: props => `${props.value} is not a valid email!`
         },
     },
-    password: {type: String, minlength: 8, required: true},
+    password: {type: String, minlength: 8, required: true, trim: true},
+    image: { type: String, required: true },
 });
 
 // Auto Increment Id

@@ -3,7 +3,7 @@ const {generateNextIdValue} = require("./CounterModel");
 
 const schema = new mongoose.Schema({
     _id: Number,
-    name: {type: String, required: true, unique: true, minlength: 2},
+    name: { type: String, required: true, unique: true, minlength: 2, trim: true },
     supervisor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Teacher',
