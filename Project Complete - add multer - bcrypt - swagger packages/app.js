@@ -6,6 +6,7 @@ const teacherRoute = require("./Routes/teacherRoute");
 const childRoute = require("./Routes/childRoute");
 const classRoute = require("./Routes/classRoute");
 const loginRoute = require("./Routes/authRoute");
+const changePasswordRoute = require("./Routes/changePasswordRoute");
 const authMiddleware = require("./Middlewares/authMiddleware");
 
 // 1- default function create server
@@ -44,8 +45,9 @@ server.use((request, response, next) => {
 /******************* EndPoints (Routes) */
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
-// server.use(loginRoute);
-// server.use(authMiddleware);
+server.use(loginRoute);
+server.use(authMiddleware);
+server.use(changePasswordRoute);
 
 server.use(teacherRoute, childRoute, classRoute);
 

@@ -6,6 +6,12 @@ exports.insertValidator = [
     .isInt()
     .withMessage("Child ID should be an integer"),
 
+  body("username")
+    .isString()
+    .withMessage("Child username should be a string")
+    .isLength({ min: 2 })
+    .withMessage("Child username length should be at least 2 characters"),
+
   body("fullname")
     .isString()
     .withMessage("Child fullname should be a string")
@@ -41,6 +47,14 @@ exports.insertValidator = [
   body('email')
       .isEmail()
       .withMessage("child email is invalid"),
+
+  body('image')
+      .custom((value, { req }) => {
+        if (!req.file) {
+          throw new Error("teacher image is required");
+        }
+        return true;
+      })
 ];
 
 exports.updateValidator = [
@@ -48,6 +62,13 @@ exports.updateValidator = [
     // .optional()
     .isInt()
     .withMessage("Child ID is required and should be an integer"),
+
+  body("username")
+    .optional()
+    .isString()
+    .withMessage("Child username should be a string")
+    .isLength({ min: 2 })
+    .withMessage("Child username length should be at least 2 characters"),
 
   body("fullname")
     .optional()
@@ -91,7 +112,15 @@ exports.updateValidator = [
   body('email')
       .optional()
       .isEmail()
-      .withMessage("child email is invalid")
+      .withMessage("child email is invalid"),
+
+  body('image')
+      .custom((value, { req }) => {
+        if (!req.file) {
+          throw new Error("teacher image is required");
+        }
+        return true;
+      })
 ];
 
 exports.deleteValidator = [param('id').isInt().withMessage('Child id Must be an int')];

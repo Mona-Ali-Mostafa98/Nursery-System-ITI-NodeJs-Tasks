@@ -5,11 +5,17 @@ exports.insertValidator = [
     .isMongoId()
     .withMessage("teacher id should be object ID"),
 
+  body("username")
+    .isString()
+    .withMessage("teacher username should be a string")
+    .isLength({ min: 2 })
+    .withMessage("teacher username length should be at least 2 characters"),
+
   body("fullname")
     .isString()
     .withMessage("teacher fullName should be string")
     .isLength({ min: 2 })
-    .withMessage(" teacher fullName lenght>2"),
+    .withMessage(" teacher fullName length > 2"),
     // checkExact([], { locations: ['body'] }),
     
   body('password')
@@ -36,12 +42,20 @@ exports.updateValidator = [
     // .optional()
     .isMongoId()
     .withMessage("teacher id required and should be object ID"),
+
+  body("username")
+    .optional()
+    .isString()
+    .withMessage("teacher username should be a string")
+    .isLength({ min: 2 })
+    .withMessage("teacher username length should be at least 2 characters"),
+
   body("fullname")
     .optional()
     .isString()
-    .withMessage("teacher username should be string")
+    .withMessage("teacher fullname should be string")
     .isLength({ min: 5 })
-    .withMessage(" teacher userName lenght>5"),
+    .withMessage(" teacher fullname lenght>5"),
     // checkExact([], { locations: ['body'] }),
   body('password')
     .optional()
