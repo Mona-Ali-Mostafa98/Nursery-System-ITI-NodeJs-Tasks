@@ -47,7 +47,7 @@ exports.insertClass = async (req, res, next) => {
 };
 
 exports.updateClass = (req, res, next) => {
-  const id = req.body._id; // Assuming the ID field is 'id', adjust it if it's '_id'
+  const id = req.body._id;
   const update = req.body;
 
   /*if (!id) {
