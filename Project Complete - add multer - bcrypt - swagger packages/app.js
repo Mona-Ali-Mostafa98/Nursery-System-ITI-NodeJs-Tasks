@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
+const addAdmin = require('./Model/Admin'); // Import the admin seeding script
 
 const teacherRoute = require("./Routes/teacherRoute");
 const childRoute = require("./Routes/childRoute");
@@ -31,6 +32,7 @@ mongoose
         server.listen(port, () => {
             console.log("I am listening..........", port);
         });
+        addAdmin();
     })
     .catch((error) => {
         console.log("DB Problem ..." + error);
