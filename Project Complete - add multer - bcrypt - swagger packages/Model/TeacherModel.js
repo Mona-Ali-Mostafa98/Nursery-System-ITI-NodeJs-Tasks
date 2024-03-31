@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const schema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    username: { type: String, required: true, minlength: 2, maxlength: 50, match: /^[a-zA-Z0-9_]+$/, trim: true },    
+    // _id: mongoose.Schema.Types.ObjectId,     // commented it because it added by default from mongo and not required to define
+    username: { type: String, unique: true, required: true, minlength: 2, maxlength: 50, match: /^[a-zA-Z0-9_]+$/, trim: true },
     fullname: { type: String, unique: true, required: true, trim: true},
     password: { type: String, minlength: 8, required: true, trim: true },
     email: {

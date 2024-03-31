@@ -23,8 +23,9 @@ exports.getTeacherById = (req, res, next) => {
 
 exports.insertTeacher = (req, res, next) => {
     const teacherData = {
-        _id: req.body._id,
+        // _id: req.body._id,   // commented it because it added by default from mongo and not required to define
         fullname: req.body.fullname,
+        username: req.body.username,
         password: req.body.password,
         email: req.body.email,
         image: req.file ? req.file.path : null,

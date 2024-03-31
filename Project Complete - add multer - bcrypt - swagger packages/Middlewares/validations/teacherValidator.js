@@ -1,9 +1,11 @@
 const { body, param, query } = require("express-validator");
 
 exports.insertValidator = [
+/*
   body("_id")
     .isMongoId()
     .withMessage("teacher id should be object ID"),
+*/
 
   body("username")
     .isString()
@@ -81,3 +83,13 @@ exports.updateValidator = [
 exports.deleteValidator = [param('id').isMongoId().withMessage('Teacher id Must be an objectID')];
 
 exports.getByIdValidator = [param('id').isMongoId().withMessage('Teacher id Must be an objectID')];
+
+exports.changePasswordValidator = [
+    body('id')
+        .isMongoId().
+        withMessage('Teacher id Must be an objectID'),
+
+    body('newPassword')
+        .isLength({ min: 8 })
+        .withMessage("teacher password min length 8"),
+];
