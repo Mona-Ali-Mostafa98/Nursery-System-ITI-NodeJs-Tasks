@@ -13,6 +13,11 @@ module.exports = (req, res, next) => {
     }
 };
 
+module.exports.isAdmin = (req, res, next) => {
+    if (req.token.role == "admin") next();
+    else next(new Error("You Are Not Authorized......"));
+};
+
 module.exports.isTeacher = (req, res, next) => {
     if (req.token.role == "teacher") next();
     else next(new Error("You Are Not Authorized......"));
