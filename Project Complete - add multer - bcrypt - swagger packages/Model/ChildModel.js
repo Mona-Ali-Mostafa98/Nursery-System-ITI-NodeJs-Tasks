@@ -12,8 +12,8 @@ const addressSchema = new mongoose.Schema(
 
 const schema = new mongoose.Schema({
     _id: Number,
-    username: { type: String, required: true, minlength: 2, maxlength: 50, match: /^[a-zA-Z0-9_]+$/, trim: true },    
-    fullname: {type: String, required: true, minlength: 2, trim: true},
+    username: { type: String, unique: true, required: true, minlength: 2, maxlength: 50, match: /^[a-zA-Z0-9_]+$/, trim: true },
+    fullname: {type: String, unique: true, required: true, minlength: 2, trim: true},
     age: { type: Number, required: true },
     level: {type: String, enum: ["PreKG", "KG1", "KG2"]},
     address: addressSchema,
