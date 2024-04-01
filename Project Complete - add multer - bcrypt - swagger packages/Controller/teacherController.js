@@ -50,14 +50,24 @@ exports.updateTeacher = (req, res, next) => {
     const filter = { _id: req.body._id };
     const update = req.body;
 
-    // findOneAndUpdate - findByIdAndUpdate - updateOne()
-    TeacherSchema.findOneAndUpdate(filter, update, {new: true}) // to return new object
+    // Change old logic findOneAndUpdate to findById to handel error in remove old image
+    TeacherSchema.findById(req.body._id)
         .then(teacher => {
             if (!teacher) {
-                throw new Error("Teacher not exists.......");
-                // return res.status(404).json({ message: "Teacher not exists......." });
+                return res.status(404).json({ message: "Teacher not exists......." });
             }
-            res.status(200).json({ teacher, message: "Teacher updated successfully......." });
+
+            if (req.file && req.file.path !== teacher.image) {
+                if (teacher.image && fs.existsSync(teacher.image)) {
+                    fs.unlinkSync(teacher.image);
+                }
+                update.image = req.file.path;
+            }
+
+            return TeacherSchema.findOneAndUpdate(filter, update, { new: true });
+        })
+        .then(updatedTeacher => {
+            res.status(200).json({ teacher: updatedTeacher, message: "Teacher updated successfully......." });
         })
         .catch(error => next(error));
 };

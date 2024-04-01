@@ -11,7 +11,7 @@ const router = express.Router();
 router.route("/teachers")
   .get(isAdmin, controller.getAllTeachers)
   .post(isAdmin, upload.single('image'), insertValidator, validationResult, encryptPassword, controller.insertTeacher)
-  .patch(isTeacherOrAdmin, updateValidator, validationResult, encryptPassword, controller.updateTeacher);
+  .patch(isTeacherOrAdmin, upload.single('image'), updateValidator, validationResult, encryptPassword, controller.updateTeacher);
 
 router.get("/teachers/supervisors", isAdmin, controller.getAllClassSupervisors);
 
