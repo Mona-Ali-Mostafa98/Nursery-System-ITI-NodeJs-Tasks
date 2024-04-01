@@ -33,8 +33,15 @@ exports.insertValidator = [
   body('image')
     .custom((value, { req }) => {
         if (!req.file) {
-          throw new Error("teacher image is required");
+            throw new Error("Teacher image is required");
         }
+
+        const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+        if (!allowedMimeTypes.includes(req.file.mimetype)) {
+            throw new Error("Only JPEG, PNG, and GIF images are allowed");
+        }
+
         return true;
     })
 ];
@@ -73,10 +80,17 @@ exports.updateValidator = [
   body('image')
     .optional()
     .custom((value, { req }) => {
-        if (!req.file) {
-            throw new Error("teacher image is required");
-        }
-        return true;
+      if (!req.file) {
+          throw new Error("Teacher image is required");
+      }
+
+      const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif'];
+
+      if (!allowedMimeTypes.includes(req.file.mimetype)) {
+          throw new Error("Only JPEG, PNG, and GIF images are allowed");
+      }
+
+      return true;
     })
 ];
 
