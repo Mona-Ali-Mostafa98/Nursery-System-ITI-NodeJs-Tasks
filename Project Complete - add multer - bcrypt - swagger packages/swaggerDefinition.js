@@ -6,7 +6,7 @@ const options = {
         info: {
             title: 'Nursery System Apis',
             version: '1.0.0',
-            description: 'API documentation for your Node.js application',
+            description: 'API documentation for my Nursery System Node.js application',
         },
         servers: [
             {

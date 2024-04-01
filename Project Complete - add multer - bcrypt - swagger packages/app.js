@@ -1,5 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDefinition = require('./swaggerDefinition');
+
 const dotenv = require("dotenv").config();
 const addAdmin = require('./Model/Admin'); // Import the admin seeding script
 
@@ -48,6 +51,10 @@ server.use((request, response, next) => {
 /******************* EndPoints (Routes) */
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
+
+// Swagger Documentation
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDefinition));
+
 server.use(loginRoute);
 server.use(authMiddleware);
 
