@@ -8,7 +8,11 @@ exports.changePassword = async (req, res, next) => {
 
     try {
         if (!_id) {
-            return res.status(400).json({ message: "ID is required, enter valid _id." });
+            return res.status(400).json({ message: "ID is required, enter valid id....." });
+        }
+
+        if (_id !== req.token._id) {
+            return res.status(403).json({ error: 'Unauthorized: User ID is not the same of logged in user.....' });
         }
 
         let user = await TeacherSchema.findById(_id);
@@ -16,22 +20,22 @@ exports.changePassword = async (req, res, next) => {
         if (!user) {
             user = await ChildSchema.findById(_id);
             if (!user) {
-                return res.status(401).json({ message: "user not exists......." });
+                return res.status(401).json({ message: "user not exists....." });
             }
         }
 
         const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
 
         if (!isPasswordValid) {
-            return res.status(401).json({ message: "Current password is incorrect......" });
+            return res.status(401).json({ message: "Current password is incorrect....." });
         }
 
         if (newPassword === currentPassword) {
-            return res.status(400).json({ message: "New password cannot be the same as the current password......" });
+            return res.status(400).json({ message: "New password cannot be the same as the current password....." });
         }
 
         if (newPassword !== confirmPassword) {
-            return res.status(400).json({ message: "New password and confirmation password do not match......" });
+            return res.status(400).json({ message: "New password and confirmation password do not match....." });
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -40,10 +44,10 @@ exports.changePassword = async (req, res, next) => {
 
         await user.save();
 
-        res.status(200).json({  child: user, message: "Password changed successfully......." });
+        res.status(200).json({  child: user, message: "Password changed successfully....." });
     } catch (error) {
         console.error("Error changing password:", error);
-        res.status(500).json({ message: "error occurred during changing password......." });
+        res.status(500).json({ message: "error occurred during changing password....." });
         next(error);
     }
 };
