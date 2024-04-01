@@ -1,10 +1,6 @@
-# My Project
+# Nursery System
 
-Nursery System.
-    -You will build part of small Nursery, the system will have only one administrator 
-    with static username and password, teachers and children. Teachers should 
-    register first, and administrator will add children to the system. Back end will be 
-    created as RESTFUL API with json responses with correct status code
+. You will build part of small Nursery, the system will have only one administrator with static username and password, teachers and children. Teachers should register first, and administrator will add children to the system. Back end will be created as RESTFUL API with json responses with correct status code
 
 ## Features
 
@@ -12,11 +8,12 @@ Nursery System.
     - Login as a admin or teacher or child
     - register as a teacher
     - change password for teacher or child
-    - Authorization
+    - Authorization (isAdmin , isTeacher, isTeacherOrAdmin and isChild middleware)
 
 - Crud of teachers
-- Crud of childerns
+- Crud of childes
 - Crud of classes
+- Logged in teacher can update your profile
 
 - encrypt passsword
 

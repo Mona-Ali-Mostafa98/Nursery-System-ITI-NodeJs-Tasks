@@ -4,19 +4,20 @@ const { insertValidator, updateValidator, deleteValidator, getByIdValidator} = r
 const validationResult = require("../Middlewares/validations/validationResult");
 const upload = require("../Middlewares/multerMiddleware");
 const encryptPassword = require('../Middlewares/passwordEncryptionMiddleware');
+const {isAdmin, isTeacherOrAdmin} = require("../Middlewares/authMiddleware");
 
 const router = express.Router();
 
 router.route("/teachers")
-  .get(controller.getAllTeachers)
-  .post(upload.single('image'), insertValidator, validationResult, encryptPassword, controller.insertTeacher)
-  .patch(updateValidator, validationResult, encryptPassword, controller.updateTeacher);
+  .get(isAdmin, controller.getAllTeachers)
+  .post(isAdmin, upload.single('image'), insertValidator, validationResult, encryptPassword, controller.insertTeacher)
+  .patch(isTeacherOrAdmin, updateValidator, validationResult, encryptPassword, controller.updateTeacher);
 
-router.get("/teachers/supervisors", controller.getAllClassSupervisors);
+router.get("/teachers/supervisors", isAdmin, controller.getAllClassSupervisors);
 
 router.route("/teachers/:id")
-  .get(getByIdValidator, validationResult, controller.getTeacherById)
-  .delete(deleteValidator, validationResult, controller.deleteTeacherById);
+  .get(isTeacherOrAdmin, getByIdValidator, validationResult, controller.getTeacherById)
+  .delete(isAdmin, deleteValidator, validationResult, controller.deleteTeacherById);
 
 
 module.exports = router;

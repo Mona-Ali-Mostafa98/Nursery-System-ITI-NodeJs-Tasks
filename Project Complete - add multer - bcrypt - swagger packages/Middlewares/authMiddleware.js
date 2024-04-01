@@ -14,16 +14,24 @@ module.exports = (req, res, next) => {
 };
 
 module.exports.isAdmin = (req, res, next) => {
-    if (req.token.role == "admin") next();
+    if (req.token.role === "admin") next();
     else next(new Error("You Are Not Authorized......"));
 };
 
 module.exports.isTeacher = (req, res, next) => {
-    if (req.token.role == "teacher") next();
+    if (req.token.role === "teacher") next();
     else next(new Error("You Are Not Authorized......"));
 };
 
 module.exports.isChild = (req, res, next) => {
-    if (req.token.role == "child") next();
+    if (req.token.role === "child") next();
     else next(new Error("You Are Not Authorized......"));
+};
+
+// Use this when need to get teacher logged in and update your data
+module.exports.isTeacherOrAdmin = (req, res, next) => {
+    if (req.token.role === "teacher" || req.token.role === "admin") {
+        if (req.body._id === req.token._id || req.params.id === req.token._id) next();
+        else return res.status(403).json({ message: "You Are Not Authorized......" });
+    } else return res.status(403).json({ message: "You Are Not Authorized......" });
 };
