@@ -31,6 +31,7 @@
 - nodemon app
 - then run project on http://localhost:8080 
 - and can show swagger documentation on http://localhost:8080/api-docs
+- postman documentation published at : https://documenter.getpostman.com/view/18989053/2sA35G21on
 
 ## Images
 
